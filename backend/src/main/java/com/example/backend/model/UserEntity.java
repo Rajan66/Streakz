@@ -20,8 +20,9 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "users")
 public class UserEntity implements UserDetails {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String firstname;
