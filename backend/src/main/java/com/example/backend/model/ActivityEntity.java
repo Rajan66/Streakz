@@ -17,6 +17,7 @@ import java.util.Date;
 @Data
 @Table(name = "activity")
 public class ActivityEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

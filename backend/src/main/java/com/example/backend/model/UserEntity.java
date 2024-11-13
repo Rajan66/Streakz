@@ -20,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "users")
 public class UserEntity implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
