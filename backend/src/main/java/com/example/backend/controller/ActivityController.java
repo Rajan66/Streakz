@@ -1,2 +1,9 @@
-package com.example.backend.controller;public class ActivityController {
+package com.example.backend.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(name = "/api/activity")
+public class ActivityController {
 }
