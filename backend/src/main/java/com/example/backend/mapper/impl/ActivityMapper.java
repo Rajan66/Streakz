@@ -4,7 +4,9 @@ import com.example.backend.dto.ActivityDto;
 import com.example.backend.mapper.Mapper;
 import com.example.backend.model.ActivityEntity;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ActivityMapper implements Mapper<ActivityEntity, ActivityDto> {
 
     private final ModelMapper modelMapper;
