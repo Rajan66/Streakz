@@ -4,8 +4,9 @@ import com.example.backend.dto.StreakDto;
 import com.example.backend.mapper.Mapper;
 import com.example.backend.model.StreakEntity;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class StreakMapper implements Mapper<StreakEntity, StreakDto> {
 
     private final ModelMapper modelMapper;

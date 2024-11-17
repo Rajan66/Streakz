@@ -21,6 +21,7 @@ public class AuthController {
 
     @PostMapping(path = "register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
+        log.info(registerRequest.toString());
         return authService.register(registerRequest);
     }
 

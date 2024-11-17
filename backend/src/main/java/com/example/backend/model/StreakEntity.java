@@ -24,7 +24,6 @@ public class StreakEntity {
     @Column(name = "user_id")
     private Long userId;
 
-
     @Column(name = "activity_id")
     private Long activityId;
 
