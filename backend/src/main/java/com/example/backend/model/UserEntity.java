@@ -31,6 +31,9 @@ public class UserEntity implements UserDetails {
     private String password;
     private Integer phone;
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ActivityEntity> activities;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

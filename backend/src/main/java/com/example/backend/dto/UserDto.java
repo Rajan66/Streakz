@@ -26,4 +26,6 @@ public class UserDto {
     private Integer phone;
 
     private Role role;
+
 }
+
