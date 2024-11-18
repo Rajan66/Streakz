@@ -22,7 +22,7 @@ public class ActivityEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    private UserEntity user;
 
     @Column(nullable = false, length = 100)
     private String title;

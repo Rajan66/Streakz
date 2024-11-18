@@ -21,10 +21,10 @@ public class StreakEntity {
     private Long id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private Long user;
 
     @Column(name = "activity_id")
-    private Long activityId;
+    private Long activity;
 
     @Column(name = "current_streak",nullable = false)
     private int currentStreak;

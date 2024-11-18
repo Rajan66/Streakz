@@ -16,9 +16,9 @@ public class StreakDto {
 
     private Long id;
 
-    private UserDto userId;
+    private UserDto user;
 
-    private ActivityDto activityId;
+    private ActivityDto activity;
 
     @NotBlank
     private int currentStreak;

@@ -23,24 +23,34 @@ public class ActivityController extends BaseController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    //    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("")
     public ResponseEntity<GlobalApiResponse> createActivity(@RequestBody ActivityDto activityDto) {
-        log.info(activityDto.toString());
+        log.info("Activity DTO, RequestBody : " + activityDto.toString());
         ActivityDto savedActivityDto = activityService.save(activityDto);
         if (savedActivityDto == null) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(failureResponse("Activity creation failed", null));
         }
-        log.info(savedActivityDto.toString());
+        log.info("Saved Activity: " + savedActivityDto.toString());
         return ResponseEntity.ok(
                 successResponse("Activity created successfully", savedActivityDto)
         );
     }
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> getHello(){
-        return ResponseEntity.ok().body("Hello world");
+    @GetMapping("/{id}")
+    public ResponseEntity<GlobalApiResponse> getActivity(@PathVariable("id") Long id) {
+        log.info("Activity ID : " + id);
+        ActivityDto activityDto = activityService.findOne(id);
+
+        if (activityDto == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(failureResponse("Activity not found", null));
+        }
+
+        return ResponseEntity.ok().body(successResponse("Activity retrieved successfully", activityDto));
+
     }
 }

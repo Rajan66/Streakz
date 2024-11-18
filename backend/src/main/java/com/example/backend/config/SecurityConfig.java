@@ -23,7 +23,6 @@ public class SecurityConfig {
             "/api/auth/login",
             "/api/auth/register",
             "/api/password-reset/*",
-            "/api/activity/hello"
     };
 
     private final JwtAuthFilter jwtAuthFilter;

@@ -30,11 +30,11 @@ public class ActivityServiceImpl implements ActivityService {
     public ActivityDto save(ActivityDto activityDto) {
         ActivityEntity activityEntity = activityMapper.mapFrom(activityDto);
 
-        Long userId = activityEntity.getUserId().getId();
+        Long userId = activityEntity.getUser().getId();
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
 
-        activityEntity.setUserId(userEntity);
+        activityEntity.setUser(userEntity);
         ActivityEntity savedActivityEntity = activityRepository.save(activityEntity);
 
         log.info(activityMapper.mapTo(savedActivityEntity).toString());
