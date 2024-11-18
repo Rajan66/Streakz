@@ -2,7 +2,7 @@ package com.example.backend.mapper.impl;
 
 import com.example.backend.dto.StreakDto;
 import com.example.backend.mapper.Mapper;
-import com.example.backend.model.StreakEntity;
+import com.example.backend.entity.StreakEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

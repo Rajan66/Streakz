@@ -3,16 +3,14 @@ package com.example.backend.service.activity;
 import com.example.backend.dto.ActivityDto;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.mapper.impl.ActivityMapper;
-import com.example.backend.model.ActivityEntity;
-import com.example.backend.model.UserEntity;
+import com.example.backend.entity.ActivityEntity;
+import com.example.backend.entity.UserEntity;
 import com.example.backend.repository.ActivityRepository;
 import com.example.backend.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service

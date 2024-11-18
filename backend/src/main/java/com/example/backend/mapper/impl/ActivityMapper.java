@@ -2,7 +2,7 @@ package com.example.backend.mapper.impl;
 
 import com.example.backend.dto.ActivityDto;
 import com.example.backend.mapper.Mapper;
-import com.example.backend.model.ActivityEntity;
+import com.example.backend.entity.ActivityEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 

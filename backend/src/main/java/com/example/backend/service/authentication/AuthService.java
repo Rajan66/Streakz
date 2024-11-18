@@ -7,7 +7,7 @@ import com.example.backend.dto.RegisterRequest;
 import com.example.backend.dto.UserDto;
 import com.example.backend.enums.Role;
 import com.example.backend.mapper.Mapper;
-import com.example.backend.model.UserEntity;
+import com.example.backend.entity.UserEntity;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;

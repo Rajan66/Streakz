@@ -1,6 +1,6 @@
 package com.example.backend.service.authentication;
 
-import com.example.backend.model.UserEntity;
+import com.example.backend.entity.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

@@ -1,14 +1,12 @@
-package com.example.backend.model;
+package com.example.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Builder
 @AllArgsConstructor
