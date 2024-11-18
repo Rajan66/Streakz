@@ -1,6 +1,7 @@
 package com.example.backend.service.activity;
 
 import com.example.backend.dto.ActivityDto;
+import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.mapper.impl.ActivityMapper;
 import com.example.backend.model.ActivityEntity;
 import com.example.backend.model.UserEntity;
@@ -32,7 +33,8 @@ public class ActivityServiceImpl implements ActivityService {
         ActivityEntity activityEntity = activityMapper.mapFrom(activityDto);
 
         Long userId = activityEntity.getUserId().getId();
-        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException());
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
 
         activityEntity.setUserId(userEntity);
         ActivityEntity savedActivityEntity = activityRepository.save(activityEntity);
