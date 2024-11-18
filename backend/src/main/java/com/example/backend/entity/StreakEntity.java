@@ -1,11 +1,10 @@
-package com.example.backend.model;
+package com.example.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
 
@@ -22,10 +21,10 @@ public class StreakEntity {
     private Long id;
 
     @Column(name = "user_id")
-    private Long userId;
+    private Long user;
 
     @Column(name = "activity_id")
-    private Long activityId;
+    private Long activity;
 
     @Column(name = "current_streak",nullable = false)
     private int currentStreak;

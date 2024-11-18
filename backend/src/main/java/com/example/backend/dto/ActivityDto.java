@@ -16,7 +16,7 @@ public class ActivityDto {
 
     private Long id;
 
-    private Long userId;
+    private UserDto user;
 
     @NotBlank
     private String title;

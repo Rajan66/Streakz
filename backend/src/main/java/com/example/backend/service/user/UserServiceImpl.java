@@ -1,6 +1,6 @@
 package com.example.backend.service.user;
 
-import com.example.backend.model.UserEntity;
+import com.example.backend.entity.UserEntity;
 import com.example.backend.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

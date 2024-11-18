@@ -1,31 +1,43 @@
 package com.example.backend.service.activity;
 
 import com.example.backend.dto.ActivityDto;
+import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.mapper.impl.ActivityMapper;
-import com.example.backend.model.ActivityEntity;
+import com.example.backend.entity.ActivityEntity;
+import com.example.backend.entity.UserEntity;
 import com.example.backend.repository.ActivityRepository;
+import com.example.backend.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.util.Optional;
-
+@Slf4j
 @Service
 public class ActivityServiceImpl implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final ActivityMapper activityMapper;
+    private final UserRepository userRepository;
 
-    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper) {
+    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository) {
         this.activityRepository = activityRepository;
         this.activityMapper = activityMapper;
+        this.userRepository = userRepository;
     }
 
     @Override
     public ActivityDto save(ActivityDto activityDto) {
         ActivityEntity activityEntity = activityMapper.mapFrom(activityDto);
+
+        Long userId = activityEntity.getUser().getId();
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+
+        activityEntity.setUser(userEntity);
         ActivityEntity savedActivityEntity = activityRepository.save(activityEntity);
+
+        log.info(activityMapper.mapTo(savedActivityEntity).toString());
         return activityMapper.mapTo(savedActivityEntity);
     }
 

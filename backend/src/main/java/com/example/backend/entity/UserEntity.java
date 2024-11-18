@@ -1,4 +1,4 @@
-package com.example.backend.model;
+package com.example.backend.entity;
 
 import com.example.backend.enums.Role;
 import jakarta.persistence.*;
@@ -30,6 +30,9 @@ public class UserEntity implements UserDetails {
     private String email;
     private String password;
     private Integer phone;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ActivityEntity> activities;
 
     @Enumerated(EnumType.STRING)
     private Role role;
