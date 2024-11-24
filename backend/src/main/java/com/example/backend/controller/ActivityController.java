@@ -4,6 +4,7 @@ import com.example.backend.dto.ActivityDto;
 import com.example.backend.dto.GlobalApiResponse;
 import com.example.backend.service.activity.ActivityService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -34,9 +35,7 @@ public class ActivityController extends BaseController {
                     .body(failureResponse("Activity creation failed", null));
         }
         log.info("Saved Activity: " + savedActivityDto.toString());
-        return ResponseEntity.ok(
-                successResponse("Activity created successfully", savedActivityDto)
-        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(successResponse("Activity created successfully", savedActivityDto));
     }
 
     @GetMapping("/{id}")
@@ -51,6 +50,29 @@ public class ActivityController extends BaseController {
         }
 
         return ResponseEntity.ok().body(successResponse("Activity retrieved successfully", activityDto));
+    }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<GlobalApiResponse> updateActivity(@PathVariable("id") Long id, @RequestBody ActivityDto activityDto) {
+        log.info("Request activity: " + activityDto.toString());
+        ActivityDto updatedActivityDto = activityService.save(activityDto, id);
+        if (updatedActivityDto == null) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(failureResponse("Activity not found", null));
+        }
+        return ResponseEntity.ok().body(successResponse("Activity updated successfully", updatedActivityDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GlobalApiResponse> deleteActivity(@PathVariable("id") Long id) {
+        log.info("Delete Activity, ID : " + id);
+        boolean response = activityService.delete(id);
+        if (!response) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(failureResponse("Activity not found", null));
+        }
+        return ResponseEntity.ok().body(successResponse("Activity deleted successfully",null));
     }
 }

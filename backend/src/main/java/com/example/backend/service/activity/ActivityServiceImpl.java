@@ -1,5 +1,6 @@
 package com.example.backend.service.activity;
 
+import com.example.backend.config.impl.ActivityPatcher;
 import com.example.backend.dto.ActivityDto;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.mapper.impl.ActivityMapper;
@@ -10,7 +11,10 @@ import com.example.backend.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,11 +23,13 @@ public class ActivityServiceImpl implements ActivityService {
     private final ActivityRepository activityRepository;
     private final ActivityMapper activityMapper;
     private final UserRepository userRepository;
+    private final ActivityPatcher patcher;
 
-    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository) {
+    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository, ActivityPatcher patcher) {
         this.activityRepository = activityRepository;
         this.activityMapper = activityMapper;
         this.userRepository = userRepository;
+        this.patcher = patcher;
     }
 
     @Override
@@ -39,6 +45,29 @@ public class ActivityServiceImpl implements ActivityService {
 
         log.info(activityMapper.mapTo(savedActivityEntity).toString());
         return activityMapper.mapTo(savedActivityEntity);
+    }
+
+
+    @Override
+    public ActivityDto save(ActivityDto activityDto, Long id) {
+        ActivityDto existingActivityDto = findOne(id);
+        if (activityDto.getTitle() == null) {
+            activityDto.setTitle(existingActivityDto.getTitle());
+        }
+
+        ActivityEntity activityEntity = activityMapper.mapFrom(activityDto);
+        ActivityEntity existingActivityEntity = activityMapper.mapFrom(existingActivityDto);
+        activityEntity.setId(id);
+
+        log.info("Existing Activity Entity:" + existingActivityEntity);
+
+        try {
+            patcher.patch(existingActivityEntity, activityEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return activityMapper.mapTo(existingActivityEntity);
     }
 
     @Override
