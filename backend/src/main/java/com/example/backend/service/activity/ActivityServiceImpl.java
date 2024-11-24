@@ -25,7 +25,7 @@ public class ActivityServiceImpl implements ActivityService {
     private final UserRepository userRepository;
     private final ActivityPatcher patcher;
 
-    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository,ActivityPatcher patcher) {
+    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository, ActivityPatcher patcher) {
         this.activityRepository = activityRepository;
         this.activityMapper = activityMapper;
         this.userRepository = userRepository;
@@ -51,22 +51,23 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public ActivityDto save(ActivityDto activityDto, Long id) {
         ActivityDto existingActivityDto = findOne(id);
-        if(activityDto.getTitle() == null){
+        if (activityDto.getTitle() == null) {
             activityDto.setTitle(existingActivityDto.getTitle());
         }
 
         ActivityEntity activityEntity = activityMapper.mapFrom(activityDto);
         ActivityEntity existingActivityEntity = activityMapper.mapFrom(existingActivityDto);
+        activityEntity.setId(id);
 
-        log.info("Existing Activity User ID: " + existingActivityEntity.getUser().getId());
-        try{
-            patcher.patch(existingActivityEntity,activityEntity);
-        }catch (Exception e){
+        log.info("Existing Activity Entity:" + existingActivityEntity);
+
+        try {
+            patcher.patch(existingActivityEntity, activityEntity);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ActivityEntity savedActivityEntity = activityRepository.save(existingActivityEntity);
-        return activityMapper.mapTo(savedActivityEntity);
+        return activityMapper.mapTo(existingActivityEntity);
     }
 
     @Override
