@@ -67,12 +67,16 @@ public class ActivityController extends BaseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<GlobalApiResponse> deleteActivity(@PathVariable("id") Long id) {
         log.info("Delete Activity, ID : " + id);
-        boolean response = activityService.delete(id);
-        if (!response) {
+        boolean deleteResponse = activityService.delete(id);
+        if (!deleteResponse) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(failureResponse("Activity not found", null));
         }
-        return ResponseEntity.ok().body(successResponse("Activity deleted successfully",null));
+        /* Well, I thought of using NO_CONTENT instead
+         * but, it is not a common practice to send a body in status code 204
+         * so the alternative is to either us ok:200 or accepted:202 if we want to send a body
+         */
+        return ResponseEntity.ok().body(successResponse("Activity deleted successfully", null));
     }
 }
