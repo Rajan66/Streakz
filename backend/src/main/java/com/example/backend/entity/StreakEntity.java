@@ -17,14 +17,16 @@ import java.time.LocalDateTime;
 public class StreakEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long user;
+    @ManyToOne
+    @JoinColumn(name = "user_id",nullable = false)
+    private UserEntity user;
 
-    @Column(name = "activity_id")
-    private Long activity;
+    @OneToOne
+    @JoinColumn(name = "activity_id",nullable = false)
+    private ActivityEntity activity;
 
     @Column(name = "current_streak",nullable = false)
     private int currentStreak;
