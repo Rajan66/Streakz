@@ -21,19 +21,29 @@ public class StreakEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
     @OneToOne
-    @JoinColumn(name = "activity_id",nullable = false)
+    @JoinColumn(name = "activity_id", nullable = false)
     private ActivityEntity activity;
 
-    @Column(name = "current_streak",nullable = false)
+    @Column(name = "current_streak", nullable = false)
     private int currentStreak;
 
-    @Column(name = "max_streak",nullable = false)
+    @Column(name = "max_streak", nullable = false)
     private int maxStreak;
 
-    @Column(name = "last_check_in",nullable = false)
+    @Column(name = "last_check_in", nullable = false)
     private LocalDateTime lastCheckIn;
+
+    @PrePersist
+    protected void onCreate(){
+        lastCheckIn = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        lastCheckIn = LocalDateTime.now();
+    }
 }

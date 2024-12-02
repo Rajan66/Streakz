@@ -3,18 +3,21 @@ package com.example.backend.controller;
 import com.example.backend.dto.GlobalApiResponse;
 import com.example.backend.dto.StreakDto;
 import com.example.backend.service.streak.StreakService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(path = "api/streak")
+@Slf4j
+@RestController
+@RequestMapping(path = "/api/streak")
 public class StreakController extends BaseController {
     private final StreakService streakService;
 
     public StreakController(StreakService streakService) {
         this.streakService = streakService;
     }
-    //TODO: api testing
+//TODO: api testing
     @GetMapping("/{id}")
     public ResponseEntity<GlobalApiResponse> getStreak(@PathVariable("id") Long id) {
         StreakDto streakDto = streakService.findOne(id);
@@ -28,6 +31,8 @@ public class StreakController extends BaseController {
 
     @PostMapping("")
     public ResponseEntity<GlobalApiResponse> createStreak(@RequestBody StreakDto streakDto) {
+        log.info("Create Streak api called");
+        log.info(String.valueOf(streakDto));
         StreakDto savedStreakDto = streakService.save(streakDto);
         if (streakDto == null) {
             return ResponseEntity
@@ -37,6 +42,8 @@ public class StreakController extends BaseController {
         return ResponseEntity.ok().body(successResponse("Streak created successfully", savedStreakDto));
     }
 
+    // Maybe I don't need this?
+    // If I delete an activity, the streak should cascade
     @DeleteMapping("/{id}")
     public ResponseEntity<GlobalApiResponse> deleteStreak(@PathVariable("id") Long id) {
         boolean deleteResponse = streakService.delete(id);
