@@ -1,5 +1,6 @@
 package com.example.backend.service.streak;
 
+import com.example.backend.config.impl.StreakPatcher;
 import com.example.backend.dto.StreakDto;
 import com.example.backend.entity.ActivityEntity;
 import com.example.backend.entity.StreakEntity;
@@ -10,10 +11,12 @@ import com.example.backend.repository.StreakRepository;
 import com.example.backend.service.activity.ActivityService;
 import com.example.backend.service.authentication.UserDetailService;
 import com.example.backend.service.user.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class StreakServiceImpl implements StreakService {
 
@@ -22,18 +25,26 @@ public class StreakServiceImpl implements StreakService {
     private final UserService userService;
     private final ActivityService activityService;
     private final ActivityRepository activityRepository;
+    private final StreakPatcher patcher;
 
-    public StreakServiceImpl(StreakRepository streakRepository, StreakMapper streakMapper, UserService userService, ActivityService activityService, ActivityRepository activityRepository) {
+    public StreakServiceImpl(StreakRepository streakRepository,
+                             StreakMapper streakMapper,
+                             UserService userService,
+                             ActivityService activityService,
+                             ActivityRepository activityRepository,
+                             StreakPatcher patcher) {
         this.streakRepository = streakRepository;
         this.streakMapper = streakMapper;
         this.userService = userService;
         this.activityService = activityService;
         this.activityRepository = activityRepository;
+        this.patcher = patcher;
     }
 
     @Override
     public StreakDto save(StreakDto streakDto) {
         StreakEntity streakEntity = streakMapper.mapFrom(streakDto);
+
         UserEntity userEntity = userService.findOne(streakEntity.getUser().getId());
         ActivityEntity activityEntity = activityRepository
                 .findById(streakEntity.getActivity().getId())
@@ -44,6 +55,23 @@ public class StreakServiceImpl implements StreakService {
             savedStreakEntity.setUser(userEntity);
             savedStreakEntity.setActivity(activityEntity);
             return streakMapper.mapTo(savedStreakEntity);
+        }
+
+        return null;
+    }
+
+    @Override
+    public StreakDto save(Long id) {
+        StreakEntity existingStreakEntity = streakRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Streak not found with the id: " + id));
+//        log.info("StreakService, before updating: {}", String.valueOf(existingStreakEntity));
+
+        if (streakRepository.existsById(id)) {
+            existingStreakEntity.setCurrentStreak(existingStreakEntity.getCurrentStreak() + 1);
+            existingStreakEntity.setMaxStreak(existingStreakEntity.getMaxStreak() + 1);
+//            log.info("StreakService, after updating: {}", String.valueOf(existingStreakEntity));
+            streakRepository.save(existingStreakEntity);
+            return streakMapper.mapTo(existingStreakEntity);
         }
 
         return null;

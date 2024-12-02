@@ -17,7 +17,8 @@ public class StreakController extends BaseController {
     public StreakController(StreakService streakService) {
         this.streakService = streakService;
     }
-//TODO: api testing
+
+    //TODO: api testing
     @GetMapping("/{id}")
     public ResponseEntity<GlobalApiResponse> getStreak(@PathVariable("id") Long id) {
         StreakDto streakDto = streakService.findOne(id);
@@ -31,8 +32,7 @@ public class StreakController extends BaseController {
 
     @PostMapping("")
     public ResponseEntity<GlobalApiResponse> createStreak(@RequestBody StreakDto streakDto) {
-        log.info("Create Streak api called");
-        log.info(String.valueOf(streakDto));
+        log.info("StreakController: Create streak api called!");
         StreakDto savedStreakDto = streakService.save(streakDto);
         if (streakDto == null) {
             return ResponseEntity
@@ -40,6 +40,13 @@ public class StreakController extends BaseController {
                     .body(failureResponse("Streak creation failed", null));
         }
         return ResponseEntity.ok().body(successResponse("Streak created successfully", savedStreakDto));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<GlobalApiResponse> updateStreak(@PathVariable("id") Long id) {
+        log.info("StreakController: Update streak api called!");
+        StreakDto updatedStreakDto = streakService.save(id);
+        return ResponseEntity.ok().body(successResponse("Streak updated successfully", updatedStreakDto));
     }
 
     // Maybe I don't need this?
@@ -52,6 +59,6 @@ public class StreakController extends BaseController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(failureResponse("Streak not found", null));
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse("Streak deleted successfullly", null));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse("Streak deleted successfully", null));
     }
 }
