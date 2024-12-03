@@ -30,20 +30,6 @@ public class StreakController extends BaseController {
         return ResponseEntity.ok().body(successResponse("Streak found", streakDto));
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<GlobalApiResponse> createStreak(@RequestBody StreakDto streakDto) {
-//        log.info("StreakController: Create streak api called!");
-//        streakDto.setCurrentStreak(0);
-//        streakDto.setMaxStreak(0);
-//        StreakDto savedStreakDto = streakService.save(streakDto);
-//        if (savedStreakDto == null) {
-//            return ResponseEntity
-//                    .status(HttpStatus.NOT_FOUND)
-//                    .body(failureResponse("Streak creation failed", null));
-//        }
-//        return ResponseEntity.ok().body(successResponse("Streak created successfully", savedStreakDto));
-//    }
-//
     @PatchMapping("/{id}")
     public ResponseEntity<GlobalApiResponse> updateStreak(@PathVariable("id") Long id) {
         log.info("StreakController: Update streak api called!");
