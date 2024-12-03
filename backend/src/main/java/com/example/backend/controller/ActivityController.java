@@ -34,6 +34,7 @@ public class ActivityController extends BaseController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(failureResponse("Activity creation failed", null));
         }
+
         log.info("Saved Activity: " + savedActivityDto.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(successResponse("Activity created successfully", savedActivityDto));
     }

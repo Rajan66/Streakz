@@ -46,22 +46,25 @@ public class StreakServiceImpl implements StreakService {
 
     @Override
     public StreakDto save(StreakDto streakDto) {
-        StreakEntity streakEntity = streakMapper.mapFrom(streakDto);
-
-        UserEntity userEntity = userService.findOne(streakEntity.getUser().getId());
-        ActivityEntity activityEntity = activityRepository
-                .findById(streakEntity.getActivity().getId())
-                .orElseThrow(() -> new RuntimeException("Activity not found"));
-
-        if (userService.exists(streakEntity.getUser().getId()) && activityService.exists(streakEntity.getActivity().getId())) {
-            StreakEntity savedStreakEntity = streakRepository.save(streakEntity);
-            savedStreakEntity.setUser(userEntity);
-            savedStreakEntity.setActivity(activityEntity);
-            return streakMapper.mapTo(savedStreakEntity);
-        }
-
         return null;
     }
+
+//    @Override
+//    public StreakDto save(StreakDto streakDto) {
+//        StreakEntity streakEntity = streakMapper.mapFrom(streakDto);
+//
+//        UserEntity userEntity = userService.findOne(streakEntity.getUser().getId());
+//        ActivityEntity activityEntity = activityRepository
+//                .findById(streakEntity.getActivity().getId())
+//                .orElseThrow(() -> new RuntimeException("Activity not found"));
+//
+//        if (userService.exists(streakEntity.getUser().getId()) && activityService.exists(streakEntity.getActivity().getId())) {
+//            StreakEntity savedStreakEntity = streakRepository.save(streakEntity);
+//            savedStreakEntity.setActivity(activityEntity);
+//            return streakMapper.mapTo(savedStreakEntity);
+//        }
+//        return null;
+//    }
 
     @Override
     public StreakDto save(Long id) {
