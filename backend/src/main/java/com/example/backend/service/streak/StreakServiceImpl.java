@@ -69,8 +69,6 @@ public class StreakServiceImpl implements StreakService {
                 .orElseThrow(() -> new RuntimeException("Streak not found with the id: " + id));
         if (streakRepository.existsById(id)) {
             boolean dateCheck = existingStreakEntity.getLastCheckIn().toLocalDate().equals(LocalDateTime.now().toLocalDate());
-            log.info(String.valueOf(existingStreakEntity.getLastCheckIn().toLocalDate()));
-            log.info(String.valueOf(LocalDateTime.now().toLocalDate()));
             log.info("Streak Service, DateCheck Patch Method: {}", dateCheck);
             if (!dateCheck) {
                 existingStreakEntity.setCurrentStreak(existingStreakEntity.getCurrentStreak() + 1);

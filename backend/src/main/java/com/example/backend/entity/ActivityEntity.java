@@ -24,7 +24,7 @@ public class ActivityEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToOne(mappedBy = "activity")
+    @OneToOne(mappedBy = "activity",cascade = CascadeType.ALL)
     private StreakEntity streak;
 
     @Column(nullable = false, length = 100)
