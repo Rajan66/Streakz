@@ -2,11 +2,13 @@ package com.example.backend.service.activity;
 
 import com.example.backend.config.impl.ActivityPatcher;
 import com.example.backend.dto.ActivityDto;
+import com.example.backend.entity.StreakEntity;
 import com.example.backend.exception.UserNotFoundException;
 import com.example.backend.mapper.impl.ActivityMapper;
 import com.example.backend.entity.ActivityEntity;
 import com.example.backend.entity.UserEntity;
 import com.example.backend.repository.ActivityRepository;
+import com.example.backend.repository.StreakRepository;
 import com.example.backend.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -24,11 +26,14 @@ public class ActivityServiceImpl implements ActivityService {
     private final ActivityMapper activityMapper;
     private final UserRepository userRepository;
     private final ActivityPatcher patcher;
+    private final StreakRepository streakRepository;
 
-    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository, ActivityPatcher patcher) {
+
+    public ActivityServiceImpl(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository, ActivityPatcher patcher, StreakRepository streakRepository) {
         this.activityRepository = activityRepository;
         this.activityMapper = activityMapper;
         this.userRepository = userRepository;
+        this.streakRepository = streakRepository;
         this.patcher = patcher;
     }
 
@@ -42,6 +47,14 @@ public class ActivityServiceImpl implements ActivityService {
 
         activityEntity.setUser(userEntity);
         ActivityEntity savedActivityEntity = activityRepository.save(activityEntity);
+
+        StreakEntity streakEntity = new StreakEntity();
+        streakEntity.setActivity(savedActivityEntity);
+        streakEntity.setCurrentStreak(0);
+        streakEntity.setMaxStreak(0);
+        streakEntity.setLastCheckIn(null);
+
+        streakRepository.save(streakEntity);
 
         log.info(activityMapper.mapTo(savedActivityEntity).toString());
         return activityMapper.mapTo(savedActivityEntity);

@@ -20,10 +20,6 @@ public class StreakEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
-
     @OneToOne
     @JoinColumn(name = "activity_id", nullable = false)
     private ActivityEntity activity;
@@ -34,16 +30,12 @@ public class StreakEntity {
     @Column(name = "max_streak", nullable = false)
     private int maxStreak;
 
-    @Column(name = "last_check_in", nullable = false)
+    @Column(name = "last_check_in")
     private LocalDateTime lastCheckIn;
 
-    @PrePersist
-    protected void onCreate(){
-        lastCheckIn = LocalDateTime.now();
-    }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         lastCheckIn = LocalDateTime.now();
     }
 }

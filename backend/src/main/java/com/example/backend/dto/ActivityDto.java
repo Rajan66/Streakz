@@ -18,6 +18,8 @@ public class ActivityDto {
 
     private UserDto user;
 
+    private StreakDto streak;
+
     @NotBlank
     private String title;
 
