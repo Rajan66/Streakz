@@ -16,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Slf4j
 @Service
 public class StreakServiceImpl implements StreakService {
@@ -64,16 +67,20 @@ public class StreakServiceImpl implements StreakService {
     public StreakDto save(Long id) {
         StreakEntity existingStreakEntity = streakRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Streak not found with the id: " + id));
-//        log.info("StreakService, before updating: {}", String.valueOf(existingStreakEntity));
-
         if (streakRepository.existsById(id)) {
-            existingStreakEntity.setCurrentStreak(existingStreakEntity.getCurrentStreak() + 1);
-            existingStreakEntity.setMaxStreak(existingStreakEntity.getMaxStreak() + 1);
-//            log.info("StreakService, after updating: {}", String.valueOf(existingStreakEntity));
-            streakRepository.save(existingStreakEntity);
-            return streakMapper.mapTo(existingStreakEntity);
+            boolean dateCheck = existingStreakEntity.getLastCheckIn().toLocalDate().equals(LocalDateTime.now().toLocalDate());
+            log.info(String.valueOf(existingStreakEntity.getLastCheckIn().toLocalDate()));
+            log.info(String.valueOf(LocalDateTime.now().toLocalDate()));
+            log.info("Streak Service, DateCheck Patch Method: {}", dateCheck);
+            if (!dateCheck) {
+                existingStreakEntity.setCurrentStreak(existingStreakEntity.getCurrentStreak() + 1);
+                existingStreakEntity.setMaxStreak(existingStreakEntity.getMaxStreak() + 1);
+                streakRepository.save(existingStreakEntity);
+                return streakMapper.mapTo(existingStreakEntity);
+            } else {
+                return null;
+            }
         }
-
         return null;
     }
 

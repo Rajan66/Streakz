@@ -46,6 +46,11 @@ public class StreakController extends BaseController {
     public ResponseEntity<GlobalApiResponse> updateStreak(@PathVariable("id") Long id) {
         log.info("StreakController: Update streak api called!");
         StreakDto updatedStreakDto = streakService.save(id);
+        if (updatedStreakDto == null) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(failureResponse("Streak updation failed", null));
+        }
         return ResponseEntity.ok().body(successResponse("Streak updated successfully", updatedStreakDto));
     }
 
