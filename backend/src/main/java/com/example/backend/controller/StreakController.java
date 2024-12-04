@@ -52,6 +52,6 @@ public class StreakController extends BaseController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(failureResponse("Streak not found", null));
         }
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(successResponse("Streak deleted successfully", null));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
