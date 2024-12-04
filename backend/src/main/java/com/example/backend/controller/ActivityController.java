@@ -78,6 +78,6 @@ public class ActivityController extends BaseController {
          * but, it is not a common practice to send a body in status code 204
          * so the alternative is to either us ok:200 or accepted:202 if we want to send a body
          */
-        return ResponseEntity.ok().body(successResponse("Activity deleted successfully", null));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 }
